@@ -1,0 +1,25 @@
+xd = 0;
+yd = 0;
+xt = 10000;
+yt = 10000;
+dt = 1;
+va = 60;
+vb = 50;
+tlimit = 300;
+da = 1000;
+flag = 0;
+for i= 2:tlimit
+    E_distance = sqrt(((xt-xd).^2) + ((yt-yd).^2));
+    if E_distance <= da
+        fprintf('defense A wins at time %d:');
+        flag = 1;
+        break;
+    else
+        xd = xd + ((va*dt)*(xt-xd)/E_distance);
+        yd = yd + ((va*dt)*(yt-yd)/E_distance);
+        xt = xt - (vb*dt);
+    end
+end
+if flag == 0
+    fprintf('defense A lost');
+end

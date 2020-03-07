@@ -1,0 +1,125 @@
+
+import java.text.DecimalFormat;
+import java.util.Random;
+
+/**
+ * Created by student on 5/7/2018.
+ */
+public class Inventory {
+    public static void main(String[] args) {
+        int bi = 3;
+        int oq = 8;
+        int lt = 1;
+        int demand = 2;
+        int sq = 0;
+        int ei = 1;
+        int cycle = 1;
+        int duoa = 1;
+        int ol = 11;
+        int totalSq = 0;
+        Random r = new Random();
+        DecimalFormat df = new DecimalFormat("#.##");
+        System.out.println("Cycle  Days    B.I      R.D.D    Demand     E.I      S.Q     O.Q     R.D.L.T   D.U.O.A");
+
+        for(int i=1; i<=5; i++){
+            for(int j=1; j<=5; j++){
+                if (j==5){
+                    System.out.print(cycle+"\t\t");
+                    cycle++;
+                }
+                else {
+                    System.out.print("\t\t");
+                }
+                System.out.print(j+"\t\t");
+                System.out.print(bi+"\t\t");
+
+                double rdd = r.nextFloat();
+                rdd = Double.parseDouble(df.format(rdd));
+                System.out.print(rdd+"       ");
+                demand = getDemand(rdd);
+                System.out.print(demand+"         ");
+
+                if (duoa==-1){
+                    ei = bi - demand - sq;
+                    sq = 0;
+                }
+                else {
+                    ei = bi - demand;
+                }
+
+                if (ei<=0){
+                    sq = sq + ei * (-1);
+                    ei = 0;
+                }
+                System.out.print(ei+"        ");
+                bi = ei;
+
+                totalSq = totalSq + sq;
+                System.out.print(sq+"       ");
+
+                if (i==1 && j==5){
+                    System.out.print(oq+"       ");
+                }
+                else if(j==5){
+                    oq = ol - ei;
+                    System.out.print(oq+"       ");
+                }
+                else {
+                    System.out.print("-       ");
+                }
+
+                if (j==5){
+                    double rdlt = r.nextFloat();
+                    rdlt = Double.parseDouble(df.format(rdlt));
+                    System.out.print(rdlt+"       ");
+                    duoa = getLeadTime(rdlt);
+                }
+                else {
+                    System.out.print("-        ");
+                }
+
+
+                if (duoa<0){
+                    System.out.print("-"+"     ");
+                }
+                else if (duoa==0){
+                    bi = ei + oq;
+                    System.out.print(duoa+"     ");
+                    duoa--;
+                }
+                else {
+                    System.out.print(duoa+"     ");
+                    duoa--;
+                }
+
+                System.out.println();
+            }
+        }
+        System.out.println();
+        System.out.println("Total shortage= "+totalSq);
+    }
+
+    public static int getDemand(double p){
+        int demand=0;
+        double table[]= {0.10,0.35,0.70,0.91,1.00};
+        for (int i=0;i<=4;i++){
+            if(p<=table[i]){
+                demand = i;
+                break;
+            }
+        }
+        return demand;
+    }
+
+    public static int getLeadTime(double p){
+        int lt=0;
+        double table[]= {0.6,0.9,1.0};
+        for (int i=0;i<=2;i++){
+            if(p<=table[i]){
+                lt = i+1;
+                break;
+            }
+        }
+        return lt;
+    }
+}

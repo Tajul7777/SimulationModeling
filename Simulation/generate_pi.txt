@@ -1,0 +1,15 @@
+function error = generate_pi()
+    n = 7;
+    x = rand(n,1);
+    y = rand(n,1);
+    hits = 0;
+    x1 = x.^2;
+    y1 = y.^2;
+    for i= 1:n
+        if(x1(i)+y1(i)<1)
+            hits=hits+1;
+        end
+    end
+    pi = (hits*4)/n;
+    error = abs(3.1416 - pi);
+end
